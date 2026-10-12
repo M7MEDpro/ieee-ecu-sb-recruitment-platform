@@ -475,7 +475,7 @@ export default function HRManagementPage() {
                         {/* Copy Login Credentials for WhatsApp */}
                         <button
                           onClick={() => {
-                            const origin = typeof window !== 'undefined' ? window.location.origin : 'https://ieee-ecu-admin.vercel.app';
+                            const origin = typeof window !== 'undefined' ? window.location.origin : (process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3001');
                             const text = `بيانات حساب عضو الـ HR في IEEE ECU SB:\nالاسم: ${hr.name}\nكلمة المرور: ${hr.plainPassword || 'تم تعيينها عند الإنشاء'}\nرابط تسجيل الدخول: ${origin}/login`;
                             navigator.clipboard.writeText(text);
                             setCopiedId(hr.id);

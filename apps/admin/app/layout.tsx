@@ -12,7 +12,7 @@ import ChineseGeometricBackground from '@/components/ChineseGeometricBackground'
 import DevToolsBlocker from '@/components/DevToolsBlocker';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://ieee-ecu-admin.vercel.app'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3001'),
   title: 'IEEE ECU SB | Recruitment Command Center',
   description:
     'Official IEEE ECU Student Branch Recruitment Command Center. Interview scheduling, candidate evaluation, and automated communications.',

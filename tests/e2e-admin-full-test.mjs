@@ -16,6 +16,8 @@ const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || 'your-supabase-ser
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 const ARTIFACT_DIR = process.env.ARTIFACT_DIR || path.resolve('./tests/artifacts');
+const APPLICANT_URL = process.env.APPLICANT_PORTAL_URL || 'http://localhost:3000';
+const ADMIN_URL = process.env.ADMIN_PORTAL_URL || 'http://localhost:3001';
 
 async function runFullAdminE2ETest() {
   console.log('═══════════════════════════════════════════════════════');
@@ -38,7 +40,7 @@ async function runFullAdminE2ETest() {
   try {
     // ── STEP 1: CREATE TEST APPLICANT VIA PORTAL ──────────────────────
     console.log('\n[1/6] Submitting live candidate application...');
-    await page.goto('https://ieee-ecu-applicant.vercel.app/apply', { waitUntil: 'networkidle' });
+    await page.goto(`${APPLICANT_URL}/apply`, { waitUntil: 'networkidle' });
 
     // Personal details
     const nameInput = page.locator('input[placeholder*="Omar Ahmed"]').or(page.locator('input').nth(0));
@@ -92,21 +94,21 @@ async function runFullAdminE2ETest() {
 
     // ── STEP 2: ADMIN LOGIN & DIRECTORY INSPECTION ───────────────────
     console.log('\n[2/6] Logging into Admin Panel & verifying Directory...');
-    await page.goto('https://ieee-ecu-admin.vercel.app/login', { waitUntil: 'networkidle' });
+    await page.goto(`${ADMIN_URL}/login`, { waitUntil: 'networkidle' });
     await page.fill('input[type="text"]', 'admin');
     await page.fill('input[type="password"]', process.env.ADMIN_PASSWORD || 'your_admin_password');
     await page.click('button[type="submit"]');
     await page.waitForURL('**/admin/**', { timeout: 15000 });
     console.log('✓ Logged in as Executive Administrator!');
 
-    await page.goto('https://ieee-ecu-admin.vercel.app/admin/applicants', { waitUntil: 'networkidle' });
+    await page.goto(`${ADMIN_URL}/admin/applicants`, { waitUntil: 'networkidle' });
     await page.locator(`a[href="/admin/applicants/${testApplicantId}"]:visible`).waitFor({ state: 'visible', timeout: 15000 });
     console.log('✓ Found test candidate in directory table!');
 
     // ── STEP 3: WHATSAPP DECISION DISPATCH & MARKING TEST ─────────────
     console.log('\n[3/6] Testing WhatsApp Decision & "Mark as Sent" features...');
     // Open candidate profile
-    await page.goto(`https://ieee-ecu-admin.vercel.app/admin/applicants/${testApplicantId}`, { waitUntil: 'networkidle' });
+    await page.goto(`${ADMIN_URL}/admin/applicants/${testApplicantId}`, { waitUntil: 'networkidle' });
     await page.locator('text=محمود العربي تجربة').first().waitFor({ state: 'visible', timeout: 15000 });
 
     // Set Decisions: Software -> ACCEPTED, PR & Logistics -> REJECTED
@@ -172,7 +174,7 @@ async function runFullAdminE2ETest() {
     console.log(`✓ Created scheduled interview slot: ${testInterviewId}`);
 
     // Navigate to interview room
-    await page.goto(`https://ieee-ecu-admin.vercel.app/hr/interview/${testInterviewId}`, { waitUntil: 'networkidle' });
+    await page.goto(`${ADMIN_URL}/hr/interview/${testInterviewId}`, { waitUntil: 'networkidle' });
     await page.locator('text=محمود العربي تجربة').first().waitFor({ state: 'visible', timeout: 15000 });
     console.log('✓ Successfully entered Interview Room for candidate!');
 
