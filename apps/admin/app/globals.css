@@ -1,0 +1,209 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Noto+Serif+SC:wght@600;700;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-poppins: 'Poppins', sans-serif;
+  --color-navy: #023260;
+  --color-red: #D92525;
+  --color-teal: #00a1c0;
+}
+
+body {
+  font-family: var(--font-poppins);
+  background-color: #00040c;
+  color: #f8fafc;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Deep IEEE ECU SB Cosmic Background (Exact from Official Website) ── */
+.home-bg {
+  background:
+    radial-gradient(ellipse 900px 650px at 12% 18%, rgba(217, 37, 37, 0.18), transparent 60%),
+    radial-gradient(ellipse 1000px 750px at 88% 12%, rgba(13, 90, 167, 0.28), transparent 60%),
+    radial-gradient(ellipse 1100px 800px at 50% 105%, rgba(217, 37, 37, 0.14), transparent 65%),
+    linear-gradient(to top, #001233, #00040c 60%, #00040c);
+  transition: background 0.5s ease;
+}
+
+/* ── Drifting Decorative Chinese Background Watermark Characters ── */
+.home-bg-char {
+  position: absolute;
+  font-family: 'Noto Serif SC', 'PingFang SC', 'Songti SC', 'SimSun', serif;
+  font-weight: 700;
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+  z-index: 0;
+  animation: homeCharDrift 14s ease-in-out infinite;
+  transition: color 0.4s ease, opacity 0.4s ease;
+}
+
+@keyframes homeCharDrift {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) rotate(var(--home-rot, 0deg));
+  }
+  50% {
+    transform: translate3d(0, -16px, 0) rotate(calc(var(--home-rot, 0deg) + 0.8deg));
+  }
+}
+
+.home-bg-char-red {
+  color: #ff5b5b !important;
+  opacity: 0.10;
+  filter: drop-shadow(0 0 20px rgba(217, 37, 37, 0.20));
+}
+
+.home-bg-char-blue {
+  color: #4a9eff !important;
+  opacity: 0.09;
+  filter: drop-shadow(0 0 20px rgba(74, 158, 255, 0.18));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-bg-char {
+    animation: none !important;
+  }
+}
+
+/* ── Floating Vertical Light Beams ── */
+.vertical-beam {
+  position: absolute;
+  bottom: -150px;
+  width: 1.5px;
+  height: 400px;
+  pointer-events: none;
+  animation: beamAscend linear infinite;
+  opacity: 0;
+}
+
+@keyframes beamAscend {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.6;
+  }
+  80% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-120vh);
+    opacity: 0;
+  }
+}
+
+/* ── Vertical Chinese Writing Mode ── */
+.writing-mode-vertical {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
+/* ── Primary Animated Gradient CTA Button ── */
+.btn-primary-ieee {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(115deg, #8f0f0f, #D92525 45%, #ff5b5b 75%, #D92525);
+  background-size: 250% 250%;
+  background-position: 0% 50%;
+  transition: background-position 0.6s ease, transform 0.35s ease, box-shadow 0.35s ease;
+  box-shadow: 0 4px 14px rgba(217, 37, 37, 0.35);
+}
+
+.btn-primary-ieee::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.45),
+    transparent
+  );
+  transform: skewX(-20deg);
+  transition: left 0.7s ease;
+}
+
+.btn-primary-ieee:hover {
+  background-position: 100% 50%;
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 26px rgba(217, 37, 37, 0.55);
+}
+
+.btn-primary-ieee:hover::before {
+  left: 125%;
+}
+
+.btn-primary-ieee:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Glassmorphism */
+.admin-card {
+  background: rgba(2, 50, 96, 0.35);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.admin-card-hover {
+  transition: all 0.2s ease-in-out;
+}
+
+.admin-card-hover:hover {
+  border-color: rgba(0, 161, 192, 0.3);
+  box-shadow: 0 8px 20px -8px rgba(0, 161, 192, 0.2);
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #00040c;
+}
+::-webkit-scrollbar-thumb {
+  background: #023260;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #00a1c0;
+}
+
+/* Hide scrollbars for clean mobile carousels & tabs */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Mobile-Specific Performance & Responsive Rules */
+@media screen and (max-width: 767px) {
+  /* Prevent iOS Safari from auto-zooming the viewport when tapping inputs */
+  input, select, textarea {
+    font-size: 16px !important;
+  }
+
+  /* Optimize glassmorphism blur for mobile GPU smoothness */
+  .admin-card {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+}
+
+/* Smooth Touch Interactions */
+button, a {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}

@@ -1,0 +1,38 @@
+{
+  "name": "ieee-ecu-sb-recruitment-platform",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Production-Ready Recruitment and Interview Management System for IEEE ECU SB",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "dev:applicant": "npm run dev --workspace=apps/applicant",
+    "dev:admin": "npm run dev --workspace=apps/admin",
+    "dev": "concurrently \"npm run dev:applicant\" \"npm run dev:admin\"",
+    "build:shared": "npm run build --workspace=@ieee-recruitment/shared",
+    "build:applicant": "npm run build:shared && npm run build --workspace=apps/applicant",
+    "build:admin": "npm run build:shared && npm run build --workspace=apps/admin",
+    "build": "npm run build:shared && npm run build --workspaces",
+    "test": "npm run build:shared && node tests/test-suite.mjs",
+    "test:e2e": "node scripts/e2e-user-journey.mjs",
+    "lint": "npm run lint --workspaces"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "^14.2.13",
+    "playwright": "^1.63.0",
+    "puppeteer-core": "^25.11.0"
+  },
+  "keywords": [
+    "ieee",
+    "recruitment",
+    "interview-management",
+    "nextjs",
+    "supabase"
+  ],
+  "author": "IEEE ECU Student Branch",
+  "license": "MIT"
+}
